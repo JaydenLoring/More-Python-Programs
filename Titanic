@@ -1,0 +1,32 @@
+@@ -0,0 +1,31 @@
+ import numpy as np
+ import pandas as pd
+ 
+ trainData = pd.read_csv("train-1.csv")
+ testData = pd.read_csv("test-1.csv")
+ 
+ trainData.head(15)
+ 
+ 
+ from sklearn.ensemble import RandomForestClassifier
+ 
+ y = trainData["Survived"]
+ 
+ features = ["Pclass", "Sex", "SibSp", "Parch"]
+ X = pd.get_dummies(trainData[features])
+ X_test = pd.get_dummies(testData[features])
+ 
+ model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=1)
+ model.fit(X, y)
+ predictions = model.predict(X_test)
+ 
+ output = pd.DataFrame({'PassengerId': testData.PassengerId, 'Survived': predictions})
+ output.to_csv('submission.csv', index=False)
+ print("Your submission was successfully saved!")
+ output.head(15)
+ 
+ #Kaggle runs a machine learning competition on the Titanic data:
+ # https://www.kaggle.com/competitions/titanicLinks to an external site.
+ 
+ #This notebook is from Alexis Cook's Titanic Tutorial page:
+ # https://www.kaggle.com/alexisbcook/titanic-tutorial
